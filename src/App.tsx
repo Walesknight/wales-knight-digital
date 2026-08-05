@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
 import MainLayout from "./layouts/MainLayout";
-import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Services from "./components/Services";
@@ -68,7 +67,6 @@ function App() {
       </Helmet>
 
       <MainLayout>
-        <Navbar />
         <Hero />
         <About />
         <Services />
