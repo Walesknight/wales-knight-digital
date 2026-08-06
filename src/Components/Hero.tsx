@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import HeroVisual from "./HeroVisual";
 
-const container = {
+const container: Variants = {
   hidden: {},
   show: {
     transition: {
@@ -10,7 +10,7 @@ const container = {
   },
 };
 
-const item = {
+const item: Variants = {
   hidden: {
     opacity: 0,
     y: 40,
@@ -20,7 +20,7 @@ const item = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: "easeOut",
+      ease: "easeOut" as const,
     },
   },
 };
