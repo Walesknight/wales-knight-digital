@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
+import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
@@ -19,7 +19,7 @@ const testimonials = [
   },
 ];
 
-const container = {
+const container: Variants = {
   hidden: {},
   show: {
     transition: {
@@ -28,112 +28,120 @@ const container = {
   },
 };
 
-const item = {
+const item: Variants = {
   hidden: {
     opacity: 0,
-    y: 40,
+    y: 35,
   },
   show: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.6,
+      ease: "easeOut" as const,
     },
   },
 };
 
 export default function Testimonials() {
   return (
-    <motion.section
+    <section
       id="testimonials"
-      className="bg-slate-900 py-24"
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      className="relative overflow-hidden bg-slate-900 py-24 sm:py-28"
     >
-      <div className="mx-auto max-w-7xl px-6">
-        {/* Heading */}
+      {/* Background Glow */}
+      <div className="pointer-events-none absolute left-[-180px] top-1/3 h-[400px] w-[400px] rounded-full bg-orange-500/5 blur-[120px]" />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        {/* ================= HEADER ================= */}
 
         <motion.div
-          className="text-center"
+          className="mx-auto max-w-3xl text-center"
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.2 }}
         >
-          <motion.p
+          <motion.span
             variants={item}
-            className="font-semibold uppercase tracking-widest text-orange-500"
+            className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-orange-400"
           >
             Testimonials
-          </motion.p>
+          </motion.span>
 
           <motion.h2
             variants={item}
-            className="mt-4 text-4xl font-bold text-white"
+            className="mt-5 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl"
           >
-            What Our Clients Say
+            What Our <span className="text-orange-500">Clients Say</span>
           </motion.h2>
 
           <motion.p
             variants={item}
-            className="mx-auto mt-4 max-w-3xl text-slate-400"
+            className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg sm:leading-8"
           >
-            We build websites and digital solutions that help businesses grow.
+            We build websites and digital solutions designed to help
+            businesses grow, attract customers and build a stronger online
+            presence.
           </motion.p>
         </motion.div>
 
-        {/* Testimonial Cards */}
+        {/* ================= TESTIMONIAL CARDS ================= */}
 
         <motion.div
-          className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+          className="mt-14 grid gap-7 md:grid-cols-2 lg:grid-cols-3"
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           {testimonials.map((testimonial) => (
-            <motion.div
+            <motion.article
               key={testimonial.name}
               variants={item}
-              whileHover={{
-                y: -10,
-                scale: 1.03,
-              }}
+              whileHover={{ y: -8 }}
               transition={{ duration: 0.25 }}
-              className="rounded-2xl border border-slate-800 bg-slate-950 p-8 shadow-lg cursor-pointer"
+              className="group relative rounded-2xl border border-slate-800 bg-slate-950 p-7 transition-colors duration-300 hover:border-orange-500/30 sm:p-8"
             >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                className="mb-6 flex gap-1 text-orange-500"
-              >
+              {/* Quote Icon */}
+
+              <div className="absolute right-7 top-7 text-orange-500/20">
+                <Quote size={34} />
+              </div>
+
+              {/* Stars */}
+
+              <div className="mb-6 flex gap-1 text-orange-500">
                 {[...Array(5)].map((_, index) => (
                   <Star
                     key={index}
-                    size={18}
+                    size={17}
                     fill="currentColor"
                   />
                 ))}
-              </motion.div>
+              </div>
 
-              <p className="leading-7 text-slate-400">
+              {/* Testimonial */}
+
+              <p className="text-base leading-7 text-slate-300">
                 "{testimonial.text}"
               </p>
+
+              {/* Client */}
 
               <div className="mt-8 border-t border-slate-800 pt-6">
                 <h4 className="font-semibold text-white">
                   {testimonial.name}
                 </h4>
 
-                <p className="text-sm text-slate-500">
+                <p className="mt-1 text-sm text-slate-500">
                   {testimonial.company}
                 </p>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 }

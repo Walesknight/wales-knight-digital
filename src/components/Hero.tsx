@@ -5,7 +5,7 @@ const container: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.15,
     },
   },
 };
@@ -13,13 +13,13 @@ const container: Variants = {
 const item: Variants = {
   hidden: {
     opacity: 0,
-    y: 40,
+    y: 30,
   },
   show: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
+      duration: 0.65,
       ease: "easeOut" as const,
     },
   },
@@ -29,89 +29,128 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-slate-950 pt-24"
+      className="relative overflow-hidden bg-slate-950 pt-20"
     >
       {/* Background Glow */}
-      <div className="absolute -top-40 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-orange-500/20 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-[-250px] h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-orange-500/10 blur-[120px]" />
 
-      <div className="relative mx-auto grid min-h-[85vh] max-w-7xl grid-cols-1 items-center gap-20 px-6 py-20 lg:grid-cols-2">
-        {/* Left Content */}
+      <div className="pointer-events-none absolute right-[-200px] top-[30%] h-[400px] w-[400px] rounded-full bg-orange-600/5 blur-[100px]" />
+
+      {/* Main Container */}
+      <div className="relative mx-auto grid min-h-[calc(100vh-80px)] max-w-7xl grid-cols-1 items-center gap-12 px-5 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-20">
+
+        {/* ================= LEFT CONTENT ================= */}
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="max-w-3xl"
+          className="relative z-10 max-w-2xl"
         >
-          <motion.span
-            variants={item}
-            className="inline-block rounded-full border border-orange-500/30 bg-orange-500/10 px-5 py-2 text-sm text-orange-400"
-          >
-            🚀 Build • Grow • Dominate Online
-          </motion.span>
+          {/* Badge */}
+          <motion.div variants={item}>
+            <span className="inline-flex items-center rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-2 text-xs font-medium tracking-wide text-orange-400 sm:text-sm">
+              <span className="mr-2 h-1.5 w-1.5 rounded-full bg-orange-500" />
+              Build • Grow • Dominate Online
+            </span>
+          </motion.div>
 
+          {/* Heading */}
           <motion.h1
             variants={item}
-            className="mt-8 text-5xl font-extrabold leading-tight text-white lg:text-6xl xl:text-7xl"
+            className="mt-7 text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[4rem] xl:text-[4.5rem]"
           >
-            Transform Your Business Into
-            <span className="block bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
+            Transform Your Business Into{" "}
+            <span className="mt-2 block bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">
               A Powerful Digital Brand
             </span>
           </motion.h1>
 
+          {/* Description */}
           <motion.p
             variants={item}
-            className="mt-8 text-xl leading-9 text-slate-400"
+            className="mt-7 max-w-xl text-base leading-7 text-slate-400 sm:text-lg sm:leading-8"
           >
-            Professional websites, SEO, Google Business Profile optimization,
-            AI automation and digital marketing that generate real business
-            growth.
+            We build professional websites, improve your online visibility,
+            automate business processes and create digital marketing
+            strategies that help businesses attract more customers and grow.
           </motion.p>
 
           {/* Buttons */}
           <motion.div
             variants={item}
-            className="mt-10 flex flex-col gap-5 sm:flex-row"
+            className="mt-9 flex flex-col gap-4 sm:flex-row"
           >
             <motion.a
               href="#contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="rounded-xl bg-orange-500 px-8 py-4 text-center font-semibold text-white shadow-lg transition hover:bg-orange-600"
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-7 py-3.5 text-center text-sm font-semibold text-white shadow-lg shadow-orange-500/20 transition-all duration-300 hover:shadow-orange-500/40 sm:px-8 sm:py-4 sm:text-base"
             >
               Start Your Project
             </motion.a>
 
             <motion.a
               href="#portfolio"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="rounded-xl border border-slate-700 px-8 py-4 text-center text-white transition hover:border-orange-500"
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="rounded-xl border border-slate-700 bg-slate-900/40 px-7 py-3.5 text-center text-sm font-semibold text-white transition-all duration-300 hover:border-orange-500/60 hover:bg-slate-900 sm:px-8 sm:py-4 sm:text-base"
             >
-              View Portfolio
+              View Our Work
             </motion.a>
           </motion.div>
 
-          {/* Features */}
+          {/* Trust Points */}
           <motion.div
             variants={item}
-            className="mt-10 flex flex-wrap gap-6 text-slate-400"
+            className="mt-9 grid grid-cols-1 gap-3 text-sm text-slate-400 sm:grid-cols-3 sm:gap-5"
           >
-            <span>✓ Responsive Websites</span>
-            <span>✓ SEO Optimized</span>
-            <span>✓ Google Business Profile</span>
+            <div className="flex items-center gap-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500/10 text-xs text-orange-400">
+                ✓
+              </span>
+              Responsive Websites
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500/10 text-xs text-orange-400">
+                ✓
+              </span>
+              SEO Optimized
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500/10 text-xs text-orange-400">
+                ✓
+              </span>
+              Business Growth
+            </div>
           </motion.div>
         </motion.div>
 
-        {/* Right Side */}
+        {/* ================= RIGHT VISUAL ================= */}
         <motion.div
-          initial={{ opacity: 0, x: 80 }}
+          initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1 }}
+          transition={{
+            duration: 0.9,
+            delay: 0.2,
+            ease: "easeOut",
+          }}
+          className="relative flex items-center justify-center lg:justify-end"
         >
-          <HeroVisual />
+          <div className="relative w-full max-w-xl">
+            {/* Glow behind visual */}
+            <div className="absolute inset-10 rounded-full bg-orange-500/10 blur-3xl" />
+
+            <div className="relative">
+              <HeroVisual />
+            </div>
+          </div>
         </motion.div>
       </div>
+
+      {/* Bottom Fade */}
+      <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-full bg-gradient-to-t from-slate-950 to-transparent" />
     </section>
   );
 }

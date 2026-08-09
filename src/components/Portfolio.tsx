@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 const projects = [
@@ -52,128 +52,156 @@ const projects = [
   },
 ];
 
-const container = {
+const container: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.15,
+      staggerChildren: 0.12,
     },
   },
 };
 
-const item = {
+const item: Variants = {
   hidden: {
     opacity: 0,
-    y: 40,
+    y: 35,
   },
   show: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.6,
+      ease: "easeOut" as const,
     },
   },
 };
 
 export default function Portfolio() {
   return (
-    <motion.section
+    <section
       id="portfolio"
-      className="bg-slate-950 py-24"
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      className="relative overflow-hidden bg-slate-950 py-24 sm:py-28"
     >
-      <div className="mx-auto max-w-7xl px-6">
-        {/* Heading */}
+      {/* Background Glow */}
+      <div className="pointer-events-none absolute right-[-200px] top-1/4 h-[400px] w-[400px] rounded-full bg-orange-500/5 blur-[120px]" />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        {/* ================= HEADER ================= */}
 
         <motion.div
-          className="text-center"
+          className="mx-auto max-w-3xl text-center"
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.2 }}
         >
-          <motion.p
+          <motion.span
             variants={item}
-            className="font-semibold uppercase tracking-widest text-orange-500"
+            className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-orange-400"
           >
             Recent Projects
-          </motion.p>
+          </motion.span>
 
           <motion.h2
             variants={item}
-            className="mt-4 text-4xl font-bold text-white md:text-5xl"
+            className="mt-5 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl"
           >
-            Our Portfolio
+            Our <span className="text-orange-500">Portfolio</span>
           </motion.h2>
 
           <motion.p
             variants={item}
-            className="mx-auto mt-5 max-w-3xl text-lg text-slate-400"
+            className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg sm:leading-8"
           >
             A selection of websites and digital solutions designed to help
             businesses establish a stronger online presence.
           </motion.p>
         </motion.div>
 
-        {/* Portfolio Grid */}
+        {/* ================= PROJECT GRID ================= */}
 
         <motion.div
-          className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+          className="mt-14 grid gap-7 md:grid-cols-2 lg:grid-cols-3"
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           {projects.map((project) => (
-            <motion.div
+            <motion.article
               key={project.title}
               variants={item}
-              whileHover={{
-                y: -10,
-                scale: 1.02,
-              }}
+              whileHover={{ y: -8 }}
               transition={{ duration: 0.25 }}
-              className="group overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 cursor-pointer"
+              className="group overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition-colors duration-300 hover:border-orange-500/30"
             >
-              <div className="overflow-hidden">
+              {/* Project Image */}
+
+              <div className="relative overflow-hidden">
                 <motion.img
                   src={project.image}
                   alt={project.title}
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.06 }}
                   transition={{ duration: 0.5 }}
-                  className="h-60 w-full object-cover"
+                  className="h-56 w-full object-cover"
                 />
-              </div>
 
-              <div className="p-6">
-                <span className="text-sm text-orange-500">
+                {/* Image Overlay */}
+
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60" />
+
+                {/* Category */}
+
+                <span className="absolute bottom-4 left-4 rounded-full border border-white/10 bg-slate-950/80 px-3 py-1.5 text-xs font-medium text-orange-400 backdrop-blur-md">
                   {project.category}
                 </span>
+              </div>
 
-                <h3 className="mt-2 text-2xl font-bold text-white">
+              {/* Project Content */}
+
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-white transition-colors duration-300 group-hover:text-orange-400">
                   {project.title}
                 </h3>
 
-                <p className="mt-3 leading-7 text-slate-400">
+                <p className="mt-3 text-sm leading-7 text-slate-400">
                   {project.description}
                 </p>
 
-                <motion.a
+                <a
                   href="#contact"
-                  whileHover={{ x: 6 }}
-                  className="mt-6 inline-flex items-center gap-2 font-semibold text-orange-500"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-orange-500 transition-all duration-300 hover:gap-3"
                 >
-                  View Project
-                  <ArrowUpRight size={18} />
-                </motion.a>
+                  Discuss Your Project
+                  <ArrowUpRight size={17} />
+                </a>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </motion.div>
+
+        {/* ================= BOTTOM CTA ================= */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-14 text-center"
+        >
+          <p className="text-sm text-slate-500">
+            Have a project in mind?
+          </p>
+
+          <a
+            href="#contact"
+            className="mt-3 inline-flex items-center gap-2 font-semibold text-orange-500 transition-all duration-300 hover:gap-3 hover:text-orange-400"
+          >
+            Let's build it together
+            <ArrowUpRight size={18} />
+          </a>
+        </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 }

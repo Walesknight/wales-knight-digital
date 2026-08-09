@@ -8,6 +8,29 @@ import {
   MessageCircle,
 } from "lucide-react";
 
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const item = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+    },
+  },
+};
+
 export default function Contact() {
   const [form, setForm] = useState({
     name: "",
@@ -21,9 +44,7 @@ export default function Contact() {
   const [error, setError] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm({
       ...form,
@@ -31,9 +52,7 @@ export default function Contact() {
     });
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setLoading(true);
@@ -55,9 +74,7 @@ export default function Contact() {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
-      setSuccess(
-        "Your message has been sent successfully."
-      );
+      setSuccess("Your message has been sent successfully.");
 
       setForm({
         name: "",
@@ -68,155 +85,250 @@ export default function Contact() {
     } catch (err) {
       console.error(err);
 
-      setError(
-        "Unable to send your message. Please try again."
-      );
+      setError("Unable to send your message. Please try again.");
     }
 
     setLoading(false);
   };
 
   return (
-    <section
+    <motion.section
       id="contact"
-      className="bg-slate-950 py-24"
+      className="bg-slate-900 py-24"
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
     >
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2">
+      <div className="mx-auto max-w-7xl px-6">
 
-        {/* Left */}
+        {/* ================= CONTACT HEADING ================= */}
 
         <motion.div
-          initial={{ opacity: 0, x: -60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          className="mx-auto max-w-3xl text-center"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
         >
-          <p className="font-semibold uppercase tracking-widest text-orange-500">
-            Contact Us
-          </p>
-
-          <h2 className="mt-4 text-4xl font-bold text-white">
-            Let's Build Your Next Project
-          </h2>
-
-          <p className="mt-6 text-lg leading-8 text-slate-400">
-            Need a professional website, SEO,
-            Google Business Profile optimization
-            or AI solutions? Send us a message
-            and we'll get back to you within
-            24 hours.
-          </p>
-
-          <div className="mt-10 space-y-6">
-
-            <div className="flex items-center gap-4">
-              <Phone className="text-orange-500" />
-              <span className="text-slate-300">
-                +234 905 891 0187
-              </span>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Mail className="text-orange-500" />
-              <span className="text-slate-300">
-                hello@walesknight.com
-              </span>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <MapPin className="text-orange-500" />
-              <span className="text-slate-300">
-                Lagos, Nigeria
-              </span>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <MessageCircle className="text-orange-500" />
-              <span className="text-slate-300">
-                Available on WhatsApp
-              </span>
-            </div>
-
-          </div>
-        </motion.div>
-                {/* Right */}
-
-                <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="rounded-2xl border border-slate-800 bg-slate-900 p-8"
-        >
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-6"
+          <motion.span
+            variants={item}
+            className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-orange-400"
           >
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={form.name}
-              onChange={handleChange}
-              required
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-white outline-none transition focus:border-orange-500"
-            />
+            Contact Us
+          </motion.span>
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              value={form.email}
-              onChange={handleChange}
-              required
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-white outline-none transition focus:border-orange-500"
-            />
+          <motion.h2
+            variants={item}
+            className="mt-5 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl"
+          >
+            Let's Build <span className="text-orange-500">Something Great</span>
+          </motion.h2>
 
-            <input
-              type="text"
-              name="phone"
-              placeholder="Phone Number"
-              value={form.phone}
-              onChange={handleChange}
-              required
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-white outline-none transition focus:border-orange-500"
-            />
-
-            <textarea
-              rows={6}
-              name="message"
-              placeholder="Tell us about your project..."
-              value={form.message}
-              onChange={handleChange}
-              required
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-white outline-none transition focus:border-orange-500"
-            />
-
-            {success && (
-              <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 text-green-400">
-                {success}
-              </div>
-            )}
-
-            {error && (
-              <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-red-400">
-                {error}
-              </div>
-            )}
-
-            <motion.button
-              type="submit"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              disabled={loading}
-              className="w-full rounded-xl bg-orange-500 py-4 font-semibold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              {loading ? "Sending..." : "Send Message"}
-            </motion.button>
-          </form>
+          <motion.p
+            variants={item}
+            className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg sm:leading-8"
+          >
+            Have a project in mind? Tell us what you need and let's create a digital solution that helps your business grow.
+          </motion.p>
         </motion.div>
 
+        {/* ================= CONTACT CONTENT ================= */}
+
+        <div className="mt-16 grid gap-8 lg:grid-cols-2">
+
+          {/* ================= LEFT CARD ================= */}
+
+          <motion.div
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="rounded-2xl border border-slate-800 bg-slate-950 p-8 md:p-10"
+          >
+            <h3 className="text-3xl font-bold text-white">
+              Let's Talk About Your Project
+            </h3>
+
+            <p className="mt-5 text-lg leading-8 text-slate-400">
+              Whether you need a website, SEO, Google Business Profile
+              optimization, digital marketing, branding or AI solutions,
+              we're ready to help.
+            </p>
+
+            <div className="mt-10 space-y-6">
+
+              {/* Phone */}
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-500/10">
+                  <Phone className="text-orange-500" size={22} />
+                </div>
+
+                <div>
+                  <p className="text-sm text-slate-500">
+                    Phone
+                  </p>
+
+                  <p className="mt-1 font-medium text-white">
+                    +234 905 891 0187
+                  </p>
+                </div>
+              </div>
+
+              {/* Email */}
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-500/10">
+                  <Mail className="text-orange-500" size={22} />
+                </div>
+
+                <div>
+                  <p className="text-sm text-slate-500">
+                    Email
+                  </p>
+
+                  <p className="mt-1 font-medium text-white">
+                    info@walesknight.com
+                  </p>
+                </div>
+              </div>
+
+              {/* Location */}
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-500/10">
+                  <MapPin className="text-orange-500" size={22} />
+                </div>
+
+                <div>
+                  <p className="text-sm text-slate-500">
+                    Location
+                  </p>
+
+                  <p className="mt-1 font-medium text-white">
+                    Abule Pan, Ibeju Lekki, Lagos, Nigeria
+                  </p>
+                </div>
+              </div>
+
+              {/* WhatsApp */}
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-500/10">
+                  <MessageCircle
+                    className="text-orange-500"
+                    size={22}
+                  />
+                </div>
+
+                <div>
+                  <p className="text-sm text-slate-500">
+                    WhatsApp
+                  </p>
+
+                  <p className="mt-1 font-medium text-white">
+                    Available on WhatsApp
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
+
+          {/* ================= RIGHT CARD ================= */}
+
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="rounded-2xl border border-slate-800 bg-slate-950 p-8 md:p-10"
+          >
+            <h3 className="text-3xl font-bold text-white">
+              Send Us a Message
+            </h3>
+
+            <p className="mt-3 text-slate-400">
+              Fill out the form and we'll get back to you.
+            </p>
+
+            <form
+              onSubmit={handleSubmit}
+              className="mt-8 space-y-5"
+            >
+              {/* Name + Email */}
+              <div className="grid gap-5 md:grid-cols-2">
+
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-xl border border-slate-700 bg-slate-900 p-4 text-white placeholder:text-slate-500 outline-none transition focus:border-orange-500"
+                />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-xl border border-slate-700 bg-slate-900 p-4 text-white placeholder:text-slate-500 outline-none transition focus:border-orange-500"
+                />
+
+              </div>
+
+              {/* Phone */}
+              <input
+                type="text"
+                name="phone"
+                placeholder="Phone Number"
+                value={form.phone}
+                onChange={handleChange}
+                required
+                className="w-full rounded-xl border border-slate-700 bg-slate-900 p-4 text-white placeholder:text-slate-500 outline-none transition focus:border-orange-500"
+              />
+
+              {/* Message */}
+              <textarea
+                rows={6}
+                name="message"
+                placeholder="Tell us about your project..."
+                value={form.message}
+                onChange={handleChange}
+                required
+                className="w-full resize-none rounded-xl border border-slate-700 bg-slate-900 p-4 text-white placeholder:text-slate-500 outline-none transition focus:border-orange-500"
+              />
+
+              {/* Success */}
+              {success && (
+                <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 text-green-400">
+                  {success}
+                </div>
+              )}
+
+              {/* Error */}
+              {error && (
+                <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-red-400">
+                  {error}
+                </div>
+              )}
+
+              {/* Submit */}
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                disabled={loading}
+                className="w-full rounded-xl bg-orange-500 py-4 font-semibold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {loading ? "Sending..." : "Send Message"}
+              </motion.button>
+            </form>
+          </motion.div>
+
+        </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
