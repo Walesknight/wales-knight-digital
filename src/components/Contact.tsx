@@ -1,3 +1,13 @@
+declare global {
+  interface Window {
+    gtag?: (
+      command: string,
+      eventName: string,
+      params?: Record<string, unknown>
+    ) => void;
+  }
+}
+
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
@@ -74,7 +84,15 @@ export default function Contact() {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
-      setSuccess("Your message has been sent successfully.");
+      // Google Analytics conversion event
+      if (typeof window !== "undefined" && window.gtag) {
+        window.gtag("event", "generate_lead", {
+          event_category: "engagement",
+          event_label: "Contact Form Submission",
+        });
+      }
+      
+      setSuccess("Your message has been sent successfully. We will get back to you shortly.");
 
       setForm({
         name: "",
@@ -85,7 +103,7 @@ export default function Contact() {
     } catch (err) {
       console.error(err);
 
-      setError("Unable to send your message. Please try again.");
+      setError("Something went wrong while sending your message. Please try again or contact us on WhatsApp.");
     }
 
     setLoading(false);
